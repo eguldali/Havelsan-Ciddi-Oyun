@@ -80,6 +80,8 @@ public class GameInfoKeeper : MonoBehaviour
     //Sets End time when game finished.
     public void SetEndTime(float _gameTime)
     {
+        Debug.Log("Geldi:" + _gameTime);
+        
         int minutes = Mathf.FloorToInt(_gameTime / 60F);
         int seconds = Mathf.FloorToInt(_gameTime - minutes * 60);
         gameTime = string.Format("{0:00}:{1:00}", minutes, seconds);
@@ -125,9 +127,9 @@ public class GameInfoKeeper : MonoBehaviour
     //Save a Save object as a file named "gamesave.txt" for loading in FinalScene and Load FinalScene.
     public void SaveEndExitGame()
     {
+        Time.timeScale = 1f;
+
         Save save = CreateSaveGameObject();
-
-
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/gamesave.txt");

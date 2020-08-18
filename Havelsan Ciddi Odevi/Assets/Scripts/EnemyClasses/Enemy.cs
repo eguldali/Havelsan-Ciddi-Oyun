@@ -34,16 +34,19 @@ public abstract class Enemy : MonoBehaviour
         {
             health = 0;
             healthBar.fillAmount = 0;
-            gameObject.SetActive(false);
+
+            if (PlayerPrefs.GetInt("SoundOpt") == 0)
+            {
+                enemyAudioSource.clip = enemyDestroyedSound;
+                enemyAudioSource.Play();
+            }
+
+            Destroy(gameObject,1f);
           
             WaveController.Instance.UpdateEnemyCounter();
             GameInfoKeeper.Instance.UpdateKilledEnemy();
             GameInfoKeeper.Instance.UpdateRangeList(bulletRange);
-            if(PlayerPrefs.GetInt("SoundOpt") == 0)
-            {
-                enemyAudioSource.clip = enemyHitSound;
-                enemyAudioSource.Play();
-            }
+            
         }
 
         else
@@ -52,7 +55,7 @@ public abstract class Enemy : MonoBehaviour
             healthBar.fillAmount = health / fullHealth;
             if (PlayerPrefs.GetInt("SoundOpt") == 0)
             {
-                enemyAudioSource.clip = enemyDestroyedSound;
+                enemyAudioSource.clip = enemyHitSound;
                 enemyAudioSource.Play();
             }
         }

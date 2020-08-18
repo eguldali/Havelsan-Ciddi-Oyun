@@ -40,6 +40,7 @@ public class NonGameplayEventsController : MonoBehaviour
     // Disable all gameplay elements before game started.
     void Start()
     {
+
         foreach (GameObject element in GameplayElements)
         {
             element.SetActive(false);
@@ -49,6 +50,7 @@ public class NonGameplayEventsController : MonoBehaviour
     // Gets Input to start the game.
     void Update()
     {
+        
         if (Input.GetKey(KeyCode.Space))
         {
             if(playerController.gameStarted == false)

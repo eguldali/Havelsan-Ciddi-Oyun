@@ -23,6 +23,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Text text_maxMagazine;
     [SerializeField] Text text_curMagazine;
     [SerializeField] Image magazineImage;
+    [SerializeField] Image temperaturImageBacground;
 
 
     //Sets the selected gun parameters, during StartScene, when GameScene started.
@@ -45,10 +46,12 @@ public class Gun : MonoBehaviour
         if (overheated == false && inLrfMode == false && gamePaused == false)
         {
             canFire = true;
+            temperaturImageBacground.color = Color.green;
         }
         else
         {
             canFire = false;
+            temperaturImageBacground.color = Color.red;
         }
 
         float magazinePerc = battaryMagazine * 100 / MaxBattery;

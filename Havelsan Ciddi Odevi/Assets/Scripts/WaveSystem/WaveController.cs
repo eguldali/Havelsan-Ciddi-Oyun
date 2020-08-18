@@ -111,13 +111,25 @@ public class WaveController : MonoBehaviour
     [SerializeField] Text text_killedEnemy;
     [SerializeField] Text text_Countdown;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource WaveSoundSource;
+    [SerializeField] AudioClip countDownSound;
+    [SerializeField] AudioClip newWaveSound;
+
     public static WaveController Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
     }
-
+    void Start()
+    {
+        if (PlayerPrefs.GetInt("SoundOpt") == 0)
+        {
+            WaveSoundSource.clip = countDownSound;
+            WaveSoundSource.Play();
+        }
+    }
   
     // Updates timer for current wave. If timer is 0, it starts next wave. If no wave left timer changes to message.
     void Update()
@@ -139,7 +151,6 @@ public class WaveController : MonoBehaviour
         }
         else
         {
-
             if (WavesQueue.Count != 0)
                 StartNextWaveFromQueue();
             else
@@ -267,11 +278,17 @@ public class WaveController : MonoBehaviour
         StartWave(WavesQueue.Peek());
         WavesQueue.Dequeue();
         currentWave++;
-        
-        if(firstWaveStarted == false)
+
+        if (firstWaveStarted == false)
         {
             text_Countdown.gameObject.SetActive(false);
             text_currWave.gameObject.SetActive(true);
+            
+        }
+        if (PlayerPrefs.GetInt("SoundOpt") == 0)
+        {
+            WaveSoundSource.clip = newWaveSound;
+            WaveSoundSource.Play();
         }
         firstWaveStarted = true;
         text_currWave.text = "Wave" + currentWave;

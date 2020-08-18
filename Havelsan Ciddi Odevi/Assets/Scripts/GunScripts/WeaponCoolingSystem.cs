@@ -20,8 +20,9 @@ public class WeaponCoolingSystem : MonoBehaviour
 
     [Header("GUI Elements")]
     [SerializeField] Text text_currTemp;
-    // Start is called before the first frame update
+    [SerializeField] Image tempImage;
 
+    // Start is called before the first frame update
     void Awake()
     {
         myGun = GetComponent<Gun>();
@@ -59,6 +60,10 @@ public class WeaponCoolingSystem : MonoBehaviour
     void LateUpdate()
     {
         text_currTemp.text = ((int)currentTemp).ToString();
+
+        float tempPerc = (currentTemp - 20)* 100 / 50;
+        tempImage.fillAmount = tempPerc / 100;
+
         if (loadingEnergy == true)
         {
 
@@ -73,7 +78,6 @@ public class WeaponCoolingSystem : MonoBehaviour
 
             if (cooldownDuration > 0)
             {
-                
                 cooldownDuration -= Time.deltaTime;
                 currentTemp -= tempDecrSpeed * Time.deltaTime;
                 myGun.overheated = true;

@@ -45,18 +45,25 @@ public class PlayerController : MonoBehaviour
     {
         if (gameStarted == true)
         {
-            if (Input.GetKey(KeyCode.E))
+            if (inLrfMode == false)
             {
-                transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
-                if (shipMovementSource.isPlaying == false)
-                    shipMovementSource.Play();
-            }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
+                    if (shipMovementSource.isPlaying == false)
+                        shipMovementSource.Play();
+                }
 
-            else if (Input.GetKey(KeyCode.Q))
-            {
-                transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
-                if(shipMovementSource.isPlaying == false)
-                    shipMovementSource.Play();
+                else if (Input.GetKey(KeyCode.Q))
+                {
+                    transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
+                    if (shipMovementSource.isPlaying == false)
+                        shipMovementSource.Play();
+                }
+                else
+                {
+                    shipMovementSource.Stop();
+                }
             }
             else
             {
@@ -97,8 +104,12 @@ public class PlayerController : MonoBehaviour
     public void GotHitFromEnemy()
     {
         nonGameplayEvents.FinishGameWithLose();
-        shipAudioSource.clip = shipDestroyedSound;
-        shipAudioSource.Play();
+        
+        if (PlayerPrefs.GetInt("SoundOpt") == 0)
+        {
+            shipAudioSource.clip = shipDestroyedSound;
+            shipAudioSource.Play();
+        }
 
     }
 
